@@ -9,7 +9,7 @@ use num::Complex;
 /// on the origin. If `c` seems to be a member (more precisely, if we reached
 /// the iteration limit without being able to prove `c` is not a member),
 /// return `None`
-fn escape_time(c: Complex<f64>, limit: u32) -> Option<u32> {
+pub fn escape_time(c: Complex<f64>, limit: u32) -> Option<u32> {
     let mut z = Complex { re: 0.0, im: 0.0 };
 
     for i in 0..limit {
@@ -32,7 +32,7 @@ use std::str::FromStr;
 ///
 /// If `s` has the proper form, return `Some<(x, y)>`. If it doesn't parse
 /// correctly, return `None`.
-fn parse_pair<T: FromStr>(s: &str, separator: char) -> Option<(T, T)> {
+pub fn parse_pair<T: FromStr>(s: &str, separator: char) -> Option<(T, T)> {
     match s.find(separator) {
         None => None,
         Some(index) => {
@@ -56,7 +56,7 @@ fn test_parse_pair() {
 }
 
 /// Parse pair of floating-point numbers separated by a comma as complex number.
-fn parse_complex(s: &str) -> Option<Complex<f64>> {
+pub fn parse_complex(s: &str) -> Option<Complex<f64>> {
     match parse_pair(s, ',') {
         Some((re, im)) => Some(Complex { re, im }),
         None => None,
@@ -76,7 +76,7 @@ fn test_parse_complex() {
 /// `pixel` is a (column, row) pair indicating a particular pixel in that image.
 /// The `upper_left` and `upper_right` parameters are points on the complex
 /// plane designating the area our image covers.
-fn pixel_to_point(bounds: (usize, usize),
+pub fn pixel_to_point(bounds: (usize, usize),
                   pixel: (usize, usize),
                   upper_left: Complex<f64>,
                   lower_right: Complex<f64>)
@@ -107,7 +107,7 @@ fn test_pixel_to_point() {
 /// which holdes one grayscale pixel per byte. The `uppser_left` and `lower_right`
 /// arguments specify points on the complex plane corresponding to the uppder-
 /// left and lower-right corners of the pixel buffer.
-fn render(pixels: &mut [u8],
+pub fn render(pixels: &mut [u8],
           bounds: (usize, usize),
           upper_left: Complex<f64>,
           lower_right: Complex<f64>)
@@ -135,7 +135,7 @@ use std::fs::File;
 
 /// Write the buffer `pixels`, whose dimensions are given by `bounds`, to the
 /// file named `filename`.
-fn write_image(filename: &str, pixels: &[u8], bounds: (usize, usize))
+pub fn write_image(filename: &str, pixels: &[u8], bounds: (usize, usize))
     -> Result<(), std::io::Error>
 {
     let output = File::create(filename)?;
